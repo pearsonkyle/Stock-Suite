@@ -13,7 +13,7 @@ if __name__ == '__main__':
 
     AV = AlphaVantage(api_key=os.environ['ALPHAVANTAGE_API_KEY'])
 
-    TIME_PERIOD = 10*365 # 10 years
+    TIME_PERIOD = 13*365 # 10 years
     SERIES_TYPE = 'close'
 
     # set up output directory    
@@ -23,9 +23,7 @@ if __name__ == '__main__':
 
     SYMBOLS = [
         'IBM', 'AAPL', 'MSFT', 'AMZN', 'META', 'TSLA', 'NVDA', 'ADBE',
-        'AMD', 'TSM', 'QCOM', 'XPEV', 'NIO', 'LAZR', 'TXN', 'NTDOY',
-        'CTXR', 'CMPS', 'PFE', 'MRNA', 'ATOS', 'AMC', 'BA', 'CRSR', 
-        'X', 'V', 'GOOGL', 'LHX', 'TWLO', 'DIS', 'SBUX', 'F',
+        'GOOGL', 'AMD', 'TSM', 'NTDOY'
     ]
 
     for SYMBOL in SYMBOLS:
@@ -98,10 +96,10 @@ if __name__ == '__main__':
                 df = pd.DataFrame.from_dict(data[key][subskey], orient='index')
                 data_df = data_df.join(df)
 
-        remove_these_cols = ['5. adjusted close', '6. volume', '7. dividend amount', '8. split coefficient']
+        remove_these_cols = ['5. adjusted close', '7. dividend amount', '8. split coefficient']
         data_df = data_df.drop(remove_these_cols, axis=1)
         # rename the number from these columns: 1. open 2. high   3. low 4. close
-        data_df = data_df.rename(columns={'1. open': 'open', '2. high': 'high', '3. low': 'low', '4. close': 'close'})
+        data_df = data_df.rename(columns={'1. open': 'open', '2. high': 'high', '3. low': 'low', '4. close': 'close', '6. volume': 'volume'})
         
         # remove rows with nans
         data_df = data_df.dropna()
